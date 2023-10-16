@@ -89,7 +89,7 @@ resource "google_bigquery_dataset" "remote_function_dataset" {
 }
 
 module "remote_function" {
-  source = "./module/remote_function"
+  source = "github.com/yashmehta10/tf_bigquery_remote_function/module/remote_function"
   gcp_project = var.project_id
   location = var.location
   bigquery_dataset = google_bigquery_dataset.remote_function_dataset.dataset_id
