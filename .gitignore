@@ -1,0 +1,5 @@
+.terraform/
+.terraform.lock.hcl
+terraform.state
+state_bucket.tf
+backend.tf

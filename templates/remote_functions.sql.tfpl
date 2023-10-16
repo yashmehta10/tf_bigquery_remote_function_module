@@ -1,0 +1,9 @@
+#!/bin/bash
+
+bq query --use_legacy_sql=false \
+'CREATE FUNCTION `${project_id}.${dataset_id}`.${function_name}(x NUMERIC) RETURNS NUMERIC
+REMOTE WITH CONNECTION `${project_id}.${location}.${connection_name}`
+OPTIONS (
+  endpoint = "${endpoint_url}",
+  max_batching_rows = ${max_batching_rows}
+)'
