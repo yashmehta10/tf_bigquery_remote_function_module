@@ -32,8 +32,3 @@ variable "remote_function_max_batch_size" {
   description = "Maximum records to send to a single cloud function instance. Ensure is set to abide by cloud function "
   type        = number
 }
-
-variable "template_file_path" {
-  description = "SQL template location"
-  type        = string
-}

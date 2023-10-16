@@ -13,7 +13,7 @@ Terraform module which create a BigQuery external connection and a remote functi
 
 ```
 module "remote_function" {
-  source = "github.com/yashmehta10/tf_bigquery_remote_function/module/remote_function"
+  source = "github.com/yashmehta10/tf_bigquery_remote_function_module"
   gcp_project = var.project_id
   location = var.location
   bigquery_dataset = google_bigquery_dataset.remote_function_dataset.dataset_id
@@ -27,7 +27,7 @@ module "remote_function" {
 
 ##### Template file - [remote_functions.sql.tfpl](tf_bigquery_remote_function/templates/remote_functions.sql.tfpl)
 
-To update the template file, only update `(x NUMERIC) RETURNS NUMERIC` input parameters and output data types. All templated variables i.e. `${variable_name}` will be populated by Terraform
+To update the template file, only update `(x NUMERIC) RETURNS NUMERIC` input parameters and output data types. All other templated variables i.e. `${variable_name}` will be populated by Terraform
 ```
 #!/bin/bash
 

@@ -9,7 +9,7 @@ resource "google_bigquery_connection" "main" {
 # Create remote function using SQL
 resource "null_resource" "create_remote_function" {
   provisioner "local-exec" {
-    command = templatefile("${var.template_file_path}", {
+    command = templatefile("${path.module}/remote_functions.sql.tfpl", {
       project_id        = "${var.gcp_project}"
       dataset_id        = "${var.bigquery_dataset}"
       function_name     = "${var.bigquery_function_name}"
