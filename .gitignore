@@ -3,3 +3,4 @@
 terraform.state
 state_bucket.tf
 backend.tf
+*.zip

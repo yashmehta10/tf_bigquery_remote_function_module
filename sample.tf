@@ -39,8 +39,8 @@ resource "google_storage_bucket" "remote_function_bucket" {
 # Zip local file
 data "archive_file" "zip_remote_function_code" {
   type        = "zip"
-  output_path = "./build/${local.cloud_function_config.remote_function_archive_name}" # Location of the zipped file
-  source_dir  = "./build/cloud_function/bq_remote_add/"         # Location of the source code
+  output_path = "./application/${local.cloud_function_config.remote_function_archive_name}" # Location of the zipped file
+  source_dir  = "./application/cloud_function/bq_remote_add/"         # Location of the source code
 }
 
 # Generate a new id each time code changes
