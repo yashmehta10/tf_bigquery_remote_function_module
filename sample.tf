@@ -1,12 +1,12 @@
 locals {
-    cloud_function_config = {
-      "remote_function_archive_name" = "remote_function_code.zip"
-    }
-    bigquery_function_config = {
-      "bigquery_function_name" = "batch_add"
-      "bigquery_function_max_batch_size" = 1000
-    }
-    
+  cloud_function_config = {
+    "remote_function_archive_name" = "remote_function_code.zip"
+  }
+  bigquery_function_config = {
+    "bigquery_function_name"           = "batch_add"
+    "bigquery_function_max_batch_size" = 1000
+  }
+
 }
 
 # Enable required APIs
@@ -40,7 +40,7 @@ resource "google_storage_bucket" "remote_function_bucket" {
 data "archive_file" "zip_remote_function_code" {
   type        = "zip"
   output_path = "./application/${local.cloud_function_config.remote_function_archive_name}" # Location of the zipped file
-  source_dir  = "./application/cloud_function/bq_remote_add/"         # Location of the source code
+  source_dir  = "./application/cloud_function/bq_remote_add/"                               # Location of the source code
 }
 
 # Generate a new id each time code changes
@@ -70,7 +70,7 @@ resource "google_cloudfunctions_function" "function" {
   trigger_http          = true
   entry_point           = "batch_add"
 
-  depends_on = [ 
+  depends_on = [
     google_project_service.cloud_function_api
   ]
   timeouts {
@@ -82,29 +82,29 @@ resource "google_cloudfunctions_function" "function" {
 
 # BigQuery dataset to hold the functions
 resource "google_bigquery_dataset" "remote_function_dataset" {
-  dataset_id                  = "remote_function_dataset"
-  friendly_name               = "remote_function_dataset"
-  description                 = "Dataset to hold remote functions"
-  location                    = var.location
+  dataset_id    = "remote_function_dataset"
+  friendly_name = "remote_function_dataset"
+  description   = "Dataset to hold remote functions"
+  location      = var.location
 }
 
 module "remote_function" {
-  source = "github.com/yashmehta10/tf_bigquery_remote_function/module/remote_function"
-  gcp_project = var.project_id
-  location = var.location
-  bigquery_dataset = google_bigquery_dataset.remote_function_dataset.dataset_id
-  bigquery_function_name = "add_one"
+  source                            = "github.com/yashmehta10/tf_bigquery_remote_function/module/remote_function"
+  gcp_project                       = var.project_id
+  location                          = var.location
+  bigquery_dataset                  = google_bigquery_dataset.remote_function_dataset.dataset_id
+  bigquery_function_name            = "add_one"
   bigquery_external_connection_name = "remote_function_connection"
-  endpoint_url = "https://australia-southeast1-yash-mehta-sandbox-398106.cloudfunctions.net/remote_function"
-  remote_function_max_batch_size = 1000
-  template_file_path = "./templates/remote_functions.sql.tfpl"
+  endpoint_url                      = "https://australia-southeast1-yash-mehta-sandbox-398106.cloudfunctions.net/remote_function"
+  remote_function_max_batch_size    = 1000
+  template_file_path                = "./templates/remote_functions.sql.tfpl"
 }
 
 # Grant connection Service Account Cloud Function invoker role
 resource "google_cloudfunctions_function_iam_member" "remote_function_connection_invoker" {
-  project = var.project_id
-  region = var.location
+  project        = var.project_id
+  region         = var.location
   cloud_function = google_cloudfunctions_function.function.name
-  role = "roles/cloudfunctions.invoker"
-  member = "serviceAccount:${module.remote_function.connection_service_account}"
+  role           = "roles/cloudfunctions.invoker"
+  member         = "serviceAccount:${module.remote_function.connection_service_account}"
 }

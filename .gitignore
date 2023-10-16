@@ -1,6 +1,7 @@
 .terraform/
 .terraform.lock.hcl
 terraform.state
+*.tfvars
 state_bucket.tf
 backend.tf
 *.zip
