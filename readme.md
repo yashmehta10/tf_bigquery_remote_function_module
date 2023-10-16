@@ -7,6 +7,7 @@ Terraform module which create a BigQuery external connection and a remote functi
 - [Remote function end-to-end guide](https://cloud.google.com/bigquery/docs/remote-functions#terraform)
 - [bq cli guide](https://cloud.google.com/bigquery/docs/bq-command-line-tool)
 
+
 ### Usage
 - Call the module by specifying the source
 - Update the input variables 
@@ -55,3 +56,7 @@ This file contains all the resources required to setup a remote function. The fo
     5. Cloud Function IAM (roles/cloudfunctions.invoker to BQ external connection service account)
 3. BigQuery
     1. BigQuery dataset to hold remote function definition
+
+### Examples 
+
+https://github.com/yashmehta10/tf_bigquery_remote_function_examples
